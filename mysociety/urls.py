@@ -1,13 +1,13 @@
-from django.urls import path
-from . import views
+# mysociety/urls.py
 
-# This list defines the URL patterns for your application.
+from django.contrib import admin
+from django.urls import path, include
+
 urlpatterns = [
-    # The login page is at the URL path "login/".
-    # It calls the 'login_view' function from your views.
-    path('login/', views.login_view, name='login'),
-    
-    # The index page is at the root URL path "".
-    # It calls the 'index_view' function from your views.
-    path('', views.index_view, name='index'),
+    # This is your admin page.
+    path('admin/', admin.site.urls),
+
+    # This line tells Django to look inside the members app for URLs.
+    # The empty string '' means it will match from the root of your domain.
+    path('', include('members.urls')),
 ]
