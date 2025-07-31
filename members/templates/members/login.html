@@ -3,104 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitashie Empire City - Resident Portal</title>
+    <title>Hitashie Empire City</title>
+    <title>Resident Portal Login</title>
+    <!-- Use Tailwind CSS for a clean, modern look and responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use the Inter font for a professional feel -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Apply the font and a dark background to the entire page */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #121212; /* A dark base color */
-            background-image: url('/static/members/images/hi1.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            position: relative;
-        }
-        /* Dark and blur overlay for a more professional look */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent overlay */
-            backdrop-filter: blur(5px);
-            z-index: -1;
-        }
-        /* Glassmorphism card for a premium, floating effect */
-        .login-card {
-            background-color: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease-in-out;
-        }
-        .login-card:hover {
-            transform: translateY(-8px);
-        }
-        .form-input {
-            transition: all 0.2s ease-in-out;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-        }
-        .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .form-input:focus {
-            border-color: #4a90e2; /* Pop of electric blue on focus */
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
-        }
-        .login-button {
-            background-image: linear-gradient(to right, #4a90e2, #5a6eff); /* A vibrant gradient */
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border-radius: 0.75rem;
-            font-weight: 600;
-        }
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+            background-color: #121212;
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
 
-    <div class="login-card p-10 w-full max-w-md mx-4">
-        <!-- Replaced "Welcome" with the full app name -->
-        <h2 class="text-3xl font-bold text-center text-gray-100 mb-2">Hitashie Empire City</h2>
-        <p class="text-center text-gray-400 mb-8">Resident Portal</p>
-        
-        {% if error %}
-            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-md relative mb-4" role="alert">
-                <span class="block sm:inline">{{ error }}</span>
-            </div>
-        {% endif %}
+    <!-- Login Container: This is the main card for the login form -->
+    <div id="login-container" class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4">
+        <h1 class="text-3xl font-bold text-center text-white mb-6">Resident Portal</h1>
+        <p class="text-gray-400 text-center mb-6">Please enter your details to log in.</p>
 
-        <form method="post" action="{% url 'login' %}" class="space-y-6">
-            {% csrf_token %}
+        <!-- Login Form -->
+        <form id="login-form" class="space-y-4">
+            <!-- Mobile Number Input -->
             <div>
-                <label for="{{ form.mobile_number.id_for_label }}" class="block text-sm font-medium text-gray-300">{{ form.mobile_number.label }}</label>
-                {{ form.mobile_number }}
+                <label for="mobile-number" class="block text-gray-300 text-sm font-medium mb-1">Mobile Number</label>
+                <input
+                    type="text"
+                    id="mobile-number"
+                    name="mobile-number"
+                    placeholder="e.g., 1234567890"
+                    class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                >
             </div>
+
+            <!-- Password Input -->
             <div>
-                <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-300">{{ form.password.label }}</label>
-                {{ form.password }}
+                <label for="password" class="block text-gray-300 text-sm font-medium mb-1">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    class="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                >
             </div>
-            
-            <button type="submit" class="login-button w-full text-white py-3 px-4 font-semibold hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all">
+
+            <!-- Error Message Box -->
+            <div id="error-message" class="text-red-400 text-sm text-center hidden"></div>
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-200"
+            >
                 Login
             </button>
         </form>
-
-        <p class="mt-8 text-center text-sm text-gray-400">
-            Don't have an account? <a href="{% url 'register' %}" class="font-medium text-blue-400 hover:text-blue-300 hover:underline">Register here</a>
-        </p>
     </div>
 
+    <!-- Welcome Container: This will be shown after a successful login -->
+    <div id="welcome-container" class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4 hidden">
+        <div class="text-center text-white">
+            <svg class="mx-auto h-16 w-16 text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h1 class="text-3xl font-bold mb-2">Welcome Back!</h1>
+            <p class="text-gray-300">You have successfully logged in to the Resident Portal.</p>
+            
+            <!-- Logout Button -->
+            <button id="logout-button" class="mt-6 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-lg hover:bg-red-700 transition-colors duration-200">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get references to all the important HTML elements
+        const loginContainer = document.getElementById('login-container');
+        const welcomeContainer = document.getElementById('welcome-container');
+        const loginForm = document.getElementById('login-form');
+        const logoutButton = document.getElementById('logout-button');
+        const errorMessage = document.getElementById('error-message');
+
+        // Hardcoded user credentials for demonstration
+        const VALID_MOBILE = '1234567890';
+        const VALID_PASSWORD = 'password123';
+
+        // Add an event listener to the form's submit event
+        loginForm.addEventListener('submit', function(event) {
+            // Prevent the form from submitting normally and reloading the page
+            event.preventDefault();
+
+            // Get the values from the input fields
+            const mobileNumber = document.getElementById('mobile-number').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Simple validation check
+            if (mobileNumber === VALID_MOBILE && password === VALID_PASSWORD) {
+                // If credentials are correct, hide the login form and show the welcome page
+                loginContainer.classList.add('hidden');
+                welcomeContainer.classList.remove('hidden');
+                errorMessage.classList.add('hidden'); // Hide any previous errors
+            } else {
+                // If credentials are wrong, show the error message
+                errorMessage.textContent = 'Invalid mobile number or password.';
+                errorMessage.classList.remove('hidden');
+            }
+        });
+
+        // Add an event listener to the logout button
+        logoutButton.addEventListener('click', function() {
+            // Hide the welcome page and show the login form again
+            welcomeContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+            // Clear the form fields for the next login attempt
+            loginForm.reset();
+            // Optional: You could also clear any error messages here
+        });
+    </script>
 </body>
 </html>
