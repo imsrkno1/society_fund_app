@@ -1,0 +1,9 @@
+# requirements.txt
+
+# The Django web framework.
+django>=4.0
+
+# The WSGI HTTP server that Vercel uses to run your Django app.
+gunicorn
+
+# (Optional) Add any other packages your project uses, like `pillow`, `psycopg2-binary` for a database, etc.
