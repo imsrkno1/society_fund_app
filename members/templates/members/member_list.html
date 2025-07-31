@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Society Members | HEC Resident Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        .header h1 {
+            margin: 0;
+            color: #28a745;
+            font-size: 2em;
+        }
+        .back-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .member-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .member-card {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .profile-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #28a745;
+        }
+        .member-details h3 {
+            margin: 0 0 5px 0;
+            color: #28a745;
+            font-size: 1.2em;
+        }
+        .member-details p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .member-details p strong {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Society Members</h1>
+            <a href="{% url 'dashboard' %}" class="back-link">Back to Dashboard</a>
+        </div>
+        
+        <div class="member-list">
+            {% for member in members %}
+                <div class="member-card">
+                    {% if member.profile_photo %}
+                        <img src="{{ member.profile_photo.url }}" alt="{{ member.name }}" class="profile-photo">
+                    {% else %}
+                        <img src="https://placehold.co/80x80/28a745/ffffff?text=No+Photo" alt="No Photo" class="profile-photo">
+                    {% endif %}
+                    <div class="member-details">
+                        <h3>{{ member.name }}</h3>
+                        <p><strong>House No:</strong> {{ member.house_no }}</p>
+                        <p><strong>Mobile:</strong> {{ member.mobile_number }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No members found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

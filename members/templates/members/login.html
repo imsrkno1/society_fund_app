@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitashie Empire City - Resident Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* A dark base color */
+            background-image: url('/static/members/images/hi1.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+        /* Dark and blur overlay for a more professional look */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent overlay */
+            backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+        /* Glassmorphism card for a premium, floating effect */
+        .login-card {
+            background-color: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-in-out;
+        }
+        .login-card:hover {
+            transform: translateY(-8px);
+        }
+        .form-input {
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .form-input:focus {
+            border-color: #4a90e2; /* Pop of electric blue on focus */
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+        }
+        .login-button {
+            background-image: linear-gradient(to right, #4a90e2, #5a6eff); /* A vibrant gradient */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border-radius: 0.75rem;
+            font-weight: 600;
+        }
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="login-card p-10 w-full max-w-md mx-4">
+        <!-- Replaced "Welcome" with the full app name -->
+        <h2 class="text-3xl font-bold text-center text-gray-100 mb-2">Hitashie Empire City</h2>
+        <p class="text-center text-gray-400 mb-8">Resident Portal</p>
+        
+        {% if error %}
+            <div class="bg-red-900 border border-red-700 text-red-300 px-4 py-3 rounded-md relative mb-4" role="alert">
+                <span class="block sm:inline">{{ error }}</span>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label for="{{ form.mobile_number.id_for_label }}" class="block text-sm font-medium text-gray-300">{{ form.mobile_number.label }}</label>
+                {{ form.mobile_number }}
+            </div>
+            <div>
+                <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-300">{{ form.password.label }}</label>
+                {{ form.password }}
+            </div>
+            
+            <button type="submit" class="login-button w-full text-white py-3 px-4 font-semibold hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all">
+                Login
+            </button>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-gray-400">
+            Don't have an account? <a href="{% url 'register' %}" class="font-medium text-blue-400 hover:text-blue-300 hover:underline">Register here</a>
+        </p>
+    </div>
+
+</body>
+</html>

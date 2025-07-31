@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Dues</title>
+    <!-- We'll use a simple QR code library for the browser -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .payment-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        .amount-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+        }
+        .qr-code-box {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        .instruction-text {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Monthly Dues Payment</h1>
+        {% if total_amount_to_pay > 0 %}
+            <p>Your total outstanding due amount is:</p>
+            <div class="amount-display">₹{{ total_amount_to_pay|floatformat:2 }}</div>
+            <p>Scan the QR code below with any UPI app to pay.</p>
+            <div class="qr-code-box">
+                <canvas id="qrcode-canvas"></canvas>
+            </div>
+            <div class="instruction-text">
+                <p>Alternatively, you can pay directly to UPI ID: <strong>{{ upi_id }}</strong></p>
+                <p>Don't forget to include your House No. in the transaction remarks for easier confirmation.</p>
+            </div>
+        {% else %}
+            <p>You have no outstanding dues. Thank you!</p>
+        {% endif %}
+        <a href="{% url 'dashboard' %}" class="back-link">Back to Dashboard</a>
+    </div>
+
+    {% if total_amount_to_pay > 0 %}
+        <script>
+            // Use the QRcode library to generate a QR code from the UPI link
+            const upiLink = "{{ upi_link }}";
+            const canvas = document.getElementById('qrcode-canvas');
+            if (canvas && upiLink) {
+                // The library automatically handles generating the QR code on the canvas
+                QRCode.toCanvas(canvas, upiLink, { errorCorrectionLevel: 'H' }, function (error) {
+                    if (error) console.error(error);
+                });
+            }
+        </script>
+    {% endif %}
+</body>
+</html>
