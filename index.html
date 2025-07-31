@@ -19,9 +19,16 @@
     </style>
 </head>
 <body>
-    <div class="p-10 text-center">
+    <div class="p-10 text-center flex flex-col items-center">
         <h1 class="text-5xl font-bold mb-4">Welcome!</h1>
         <p class="text-xl">You have successfully logged in to the Resident Portal.</p>
+        
+        <!-- This is the new link to the login page. -->
+        <!-- It's styled as a button using Tailwind CSS classes. -->
+        <a href="/login/" class="mt-8 px-6 py-3 bg-blue-600 text-white font-medium rounded-md shadow-lg hover:bg-blue-700 transition-colors duration-200">
+            Go to Login Page
+        </a>
+
         <p class="mt-8 text-sm text-gray-400">This is a placeholder page. You can add more features here.</p>
     </div>
 </body>
