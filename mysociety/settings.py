@@ -8,7 +8,10 @@ SECRET_KEY = 'django-insecure-68sw_@^h1!ugqkri)*620uaa4vjw^%$r99=1x@odh&up(9^lx#
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# --- The fix is here! ---
+# When deploying to Vercel, Django needs to know which domains are allowed to access it.
+# The `*` wildcard allows all hosts. You can set this to your Vercel URL later.
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -17,7 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'members', # <--- ENSURE 'members' IS HERE
+    'members',
 ]
 
 MIDDLEWARE = [
@@ -36,10 +39,10 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True, # <--- ENSURE THIS IS True
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug', # Added debug context processor for convenience
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -84,9 +87,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Custom User Model Settings (CRUCIAL)
-AUTH_USER_MODEL = 'members.CustomUser' # <--- ENSURE THIS IS HERE
+# Custom User Model Settings
+AUTH_USER_MODEL = 'members.CustomUser'
 
-# Login/Logout Redirect URLs (CRUCIAL)
-LOGIN_REDIRECT_URL = 'dashboard' # Name of the URL pattern to redirect to after successful login
-LOGIN_URL = 'login'              # Name of the URL pattern for the login page (used by @login_required)
+# Login/Logout Redirect URLs
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
