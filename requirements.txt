@@ -1,9 +1,12 @@
 # requirements.txt
+# This file tells Vercel which dependencies to install.
 
-# The Django web framework.
+# The Django web framework is essential for your app to run.
 django>=4.0
 
-# The WSGI HTTP server that Vercel uses to run your Django app.
+# Gunicorn is the WSGI server Vercel uses to execute your Django application.
+# This is a critical dependency for Vercel deployments.
 gunicorn
 
-# (Optional) Add any other packages your project uses, like `pillow`, `psycopg2-binary` for a database, etc.
+# If your project uses any other packages (e.g., pillow, psycopg2-binary),
+# list them here as well.
