@@ -4,10 +4,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    # This is your admin page.
+    # The default Django admin path
     path('admin/', admin.site.urls),
 
-    # This line tells Django to look inside the members app for URLs.
-    # The empty string '' means it will match from the root of your domain.
+    # This line tells Django to look inside your 'members' app for more URL patterns
+    # The empty string '' means that any incoming URL will first be checked against
+    # the patterns defined in members/urls.py.
     path('', include('members.urls')),
 ]
