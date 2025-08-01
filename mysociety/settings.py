@@ -14,7 +14,9 @@ SECRET_KEY = 'django-insecure-k&8g2)d&10r*&2q-j89%_w7$v5*v*r8a-k_c3#j_3r*z0&3m9m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# This is the list of hosts (domains) that your Django application will serve.
+# You must include the domain provided in the error message for it to work on Vercel.
+ALLOWED_HOSTS = ['hec-5j6jt64r6-imsrkno1s-projects.vercel.app', '127.0.0.1', 'localhost']
 
 # Application definition
 INSTALLED_APPS = [
