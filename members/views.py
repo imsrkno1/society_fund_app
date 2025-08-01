@@ -25,7 +25,8 @@ def register_view(request):
     else:
         form = CustomUserCreationForm()
 
-    return render(request, 'register.html', {'form': form})
+    # NOTE: The template path has been updated to 'members/register.html'
+    return render(request, 'members/register.html', {'form': form})
 
 # The view for user login.
 def login_view(request):
@@ -43,14 +44,15 @@ def login_view(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)  # Log the user in
                 return redirect('index')
     else:
         form = AuthenticationForm()
         
-    return render(request, 'login.html', {'form': form})
+    # NOTE: The template path has been updated to 'members/login.html'
+    return render(request, 'members/login.html', {'form': form})
 
 # The view for logging out a user.
 @login_required
@@ -68,4 +70,5 @@ def index_view(request):
     The main page for authenticated users.
     The `@login_required` decorator ensures that only logged-in users can access this page.
     """
-    return render(request, 'index.html')
+    # NOTE: The template path has been updated to 'members/index.html'
+    return render(request, 'members/index.html')
