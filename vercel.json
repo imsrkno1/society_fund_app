@@ -1,17 +1,19 @@
 {
+  "version": 2,
   "builds": [
     {
-      "src": "vercel_app.py",
+      "src": "mysociety/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "vercel_app.py"
+      "dest": "mysociety/wsgi.py"
     }
   ],
   "env": {
-    "PYTHON_VERSION": "3.11"
+    "PYTHON_VERSION": "3.11",
+    "PYTHONPATH": "mysociety/"
   }
 }
