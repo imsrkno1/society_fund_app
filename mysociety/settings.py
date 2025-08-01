@@ -16,7 +16,14 @@ DEBUG = True
 
 # This is the list of hosts (domains) that your Django application will serve.
 # You must include the domain provided in the error message for it to work on Vercel.
-ALLOWED_HOSTS = ['hec-5j6jt64r6-imsrkno1s-projects.vercel.app', '127.0.0.1', 'localhost']
+# Note: Vercel may assign a new temporary URL on each deployment, so you may need to
+# update this list if you get a DisallowedHost error again.
+ALLOWED_HOSTS = [
+    'hec-8mq4qayqo-imsrkno1s-projects.vercel.app',
+    'hec-tau.vercel.app',
+    '127.0.0.1',
+    'localhost'
+]
 
 # Application definition
 INSTALLED_APPS = [
