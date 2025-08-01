@@ -10,18 +10,27 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 import os
 import sys
 
+# This section is critical for Vercel. We need to explicitly set up the
+# Python path so the runtime can find our project modules.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+    
+# Now, we need to add the parent directory of our project to the path
+# for example, if 'mysociety' is in 'project_root', we need to add 'project_root'
+# The `os.getcwd()` method is a good way to get the current working directory,
+# which for Vercel is the root of your project.
+if os.getcwd() not in sys.path:
+    sys.path.insert(0, os.getcwd())
+
+
 from django.core.wsgi import get_wsgi_application
 
-# Add the project's root directory to the Python path
-# This is a robust way to ensure all modules are found.
-path = os.path.expanduser('/opt/render/project/src')
-if path not in sys.path:
-    sys.path.insert(0, path)
-
+# We are setting the Django settings module explicitly.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysociety.settings')
 
 application = get_wsgi_application()
 
-# This is the crucial line for Vercel. We need to expose the application
-# under the name `app` as well, as this is what Vercel's Python runtime expects.
+# This is the variable Vercel expects to find. We are assigning the
+# Django application to a variable named `app`.
 app = application
