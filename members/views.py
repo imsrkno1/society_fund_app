@@ -1,47 +1,71 @@
 # members/views.py
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from .forms import LoginForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 
-# This is a hardcoded user for demonstration purposes.
-# In a real application, you would check a database for user credentials.
-DEMO_USER = {
-    'mobile_number': '1234567890',
-    'password': 'password123'
-}
+# The view for user registration.
+def register_view(request):
+    """
+    Handles user registration.
+    - On a GET request, it displays an empty registration form.
+    - On a POST request, it attempts to validate and save the new user.
+    """
+    # If the user is already authenticated, redirect them to the index page.
+    if request.user.is_authenticated:
+        return redirect('index')
 
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in immediately after registration
+            return redirect('index')
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'register.html', {'form': form})
+
+# The view for user login.
 def login_view(request):
     """
-    Handles form submission and renders the login page.
-    - If the request is a GET, it shows an empty login form.
-    - If the request is a POST, it validates the form data.
-      - On successful login, it redirects to the 'index' page.
-      - On failed login, it re-renders the form with an error message.
+    Handles user login.
+    - On a GET request, it displays an empty login form.
+    - On a POST request, it attempts to authenticate the user.
     """
+    # If the user is already authenticated, redirect them to the index page.
+    if request.user.is_authenticated:
+        return redirect('index')
+
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            mobile_number = form.cleaned_data['mobile_number']
-            password = form.cleaned_data['password']
-
-            # Check if the submitted credentials match the hardcoded user.
-            if mobile_number == DEMO_USER['mobile_number'] and password == DEMO_USER['password']:
-                # If credentials are correct, redirect to the 'index' URL.
-                return redirect(reverse('index'))
-            else:
-                # If credentials are wrong, show the form again with an error.
-                error = "Invalid mobile number or password."
-                return render(request, 'members/login.html', {'form': form, 'error': error})
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)  # Log the user in
+                return redirect('index')
     else:
-        # For a GET request, create a new, empty form.
-        form = LoginForm()
+        form = AuthenticationForm()
+        
+    return render(request, 'login.html', {'form': form})
 
-    # Render the login template with the form.
-    return render(request, 'members/login.html', {'form': form})
+# The view for logging out a user.
+@login_required
+def logout_view(request):
+    """
+    Logs out the current user and redirects to the login page.
+    """
+    logout(request)
+    return redirect('login')
 
+# The main index page, which is only accessible to authenticated users.
+@login_required
 def index_view(request):
     """
-    Renders the page that a user sees after a successful login.
+    The main page for authenticated users.
+    The `@login_required` decorator ensures that only logged-in users can access this page.
     """
-    return render(request, 'members/index.html')
+    return render(request, 'index.html')
