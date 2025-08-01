@@ -33,3 +33,13 @@ urlpatterns = [
     path('members/', members_views.member_list, name='member_list'), # New URL for member list
     path('api/get_user_details/<str:house_no>/', members_views.get_user_details_api, name='get_user_details_api'),
 ]
+
+urlpatterns = [
+    # The root URL path ('') now points to your login_view.
+    # We give it the name 'login' for easy reference.
+    path('', views.login_view, name='login'),
+    
+    # This path is for the page a user sees after logging in.
+    # The name 'index' matches the redirect in your views.py.
+    path('index/', views.index_view, name='index'),
+]
