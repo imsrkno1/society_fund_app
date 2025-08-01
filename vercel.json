@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "mysociety/wsgi.py",
+      "src": "vercel_app.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "mysociety/wsgi.py"
+      "dest": "vercel_app.py"
     }
   ],
   "env": {
