@@ -1,18 +1,22 @@
 # mysociety/settings.py
-
 from pathlib import Path
+import os
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-68sw_@^h1!ugqkri)*620uaa4vjw^%$r99=1x@odh&up(9^lx#'
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-k&8g2)d&10r*&2q-j89%_w7$v5*v*r8a-k_c3#j_3r*z0&3m9m'
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# --- The fix is here! ---
-# When deploying to Vercel, Django needs to know which domains are allowed to access it.
-# The `*` wildcard allows all hosts. You can set this to your Vercel URL later.
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'members',
+    'members',  # This line tells Django to use your 'members' app
 ]
 
 MIDDLEWARE = [
@@ -38,8 +42,8 @@ ROOT_URLCONF = 'mysociety.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # You could add a project-level templates folder if you wanted to.
+        'APP_DIRS': True,  # This is the key change! It enables Django to find templates within each app's 'templates' folder.
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -53,6 +57,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysociety.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -60,6 +66,8 @@ DATABASES = {
     }
 }
 
+# Password validation
+# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -75,6 +83,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/5.0/topics/i18n/
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -83,13 +93,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATIC_URL = 'static/'
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Custom User Model Settings
-AUTH_USER_MODEL = 'members.CustomUser'
-
-# Login/Logout Redirect URLs
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGIN_URL = 'login'
