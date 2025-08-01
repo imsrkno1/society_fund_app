@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from .forms import CustomUserCreationForm # This form is required for the registration view
 
 # The view for user registration.
 def register_view(request):
@@ -25,7 +25,6 @@ def register_view(request):
     else:
         form = CustomUserCreationForm()
 
-    # NOTE: The template path has been updated to 'members/register.html'
     return render(request, 'members/register.html', {'form': form})
 
 # The view for user login.
@@ -51,7 +50,6 @@ def login_view(request):
     else:
         form = AuthenticationForm()
         
-    # NOTE: The template path has been updated to 'members/login.html'
     return render(request, 'members/login.html', {'form': form})
 
 # The view for logging out a user.
@@ -70,5 +68,4 @@ def index_view(request):
     The main page for authenticated users.
     The `@login_required` decorator ensures that only logged-in users can access this page.
     """
-    # NOTE: The template path has been updated to 'members/index.html'
     return render(request, 'members/index.html')
